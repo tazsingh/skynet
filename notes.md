@@ -25,3 +25,6 @@
 
 ## Mediasource API ##
 * Holy shit you can read video from an arrayBuffer - wtf - this shit is cray
+
+## Video FFMPEG ##
+* `ffmpeg -i tcp://192.168.1.1:5555 -f image2 -updatefirst 1 frame.png`
