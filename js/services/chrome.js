@@ -1,0 +1,1 @@
+skynet.value("$chrome", chrome);

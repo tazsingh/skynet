@@ -271,8 +271,6 @@ SKYNET.API = (function() {
   };
 
   window.onkeypress = function(event) {
-    console.log(event);
-
     switch(event.keyCode) {
       case 119: // W
         status.frontBackTilt = 0.5;

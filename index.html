@@ -1,33 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html ng:app="skynet">
   <head>
     <meta charset="utf-8">
     <title>Skynet 0.1 Alpha</title>
-    <link href="styles/skynet.css" rel="stylesheet"></link>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet"></link>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet"></link>
+    <link href="css/lcars.css" rel="stylesheet"></link>
   </head>
   <body>
-    <h1>Skynet 0.1 Alpha</h1>
-    <p id="message">
-      Connect to the AR.Drone's Wifi network.
-      Then press A on your gamepad to get started.
-    </p>
-    <p id="instructions">
-      <strong>Left shoulder button:</strong> Land<br/>
-      <strong>Right shoulder button:</strong> Take off<br/>
-      <strong>Left stick:</strong> move<br/>
-      <strong>Right stick:</strong> rotate left-right / raise and lower<br/></p>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div id="instructions" class="span12">
+          <h1>Skynet 0.1 Alpha</h1>
+          <p id="message">
+            Connect to the AR.Drone's Wifi network.
+            Then press A on your gamepad to get started.
+          </p>
+        </div>
 
-      <video width="100px" height="100px"></video>
+        <div id="video" class="span4" ng:controller="VideoFeed">
+          <div style="width:100%;height:100%;text-align:center;">
+            VIDEO
+          </div>
+        </div>
 
-    <script src="lib/gamepad.js"></script>
+        <div id="controls" class="span7" ng:controller="Controls">
+          <div class="row-fluid">
+            <div class="span2 btn btn-round">
+              UP
+            </div>
+            <div class="span2 btn btn-round">
+              DOWN
+            </div>
+            <div class="span2 btn btn-round">
+              LEFT
+            </div>
+            <div class="span2 btn btn-round">
+              RIGHT
+            </div>
+            <div class="span2 btn btn-round">
+              FILLER
+            </div>
+            <div class="span2 btn btn-round">
+              FILLER
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <script src="src/skynet.js"></script>
-    <script src="src/api.js"></script>
-    <script src="src/gamepad.js"></script>
-    <script src="src/navdata.js"></script>
-    <script src="src/sequence.js"></script>
-    <script src="src/command.js"></script>
-    <script src="src/util.js"></script>
-    <script src="src/init.js"></script>
+    <script src="js/libs/angular.js"></script>
+    <script src="js/libs/gamepad.js"></script>
+    <script src="js/libs/ui-bootstrap-0.2.0.js"></script>
+
+    <script src="js/skynet.js"></script>
+    <script src="js/services/chrome.js"></script>
+    <script src="js/services/client_ip.js"></script>
+    <script src="js/services/drone_ip.js"></script>
+    <script src="js/services/sockets.js"></script>
+
+    <script src="js/controllers/controls.js"></script>
+    <script src="js/controllers/video_feed.js"></script>
   </body>
 </html>
