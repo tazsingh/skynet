@@ -47,14 +47,15 @@ SKYNET.API = (function() {
       }
     , takeOffLandStart
     , previousTakeOffStatus
-    , videoElement = document.querySelector("video")
-    , mediaSource
-    , sourceBuffer
-    , sourceBufferType = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
-    , firstChunkAppended = false;
+    // , videoElement = document.querySelector("video")
+    // , mediaSource
+    // , sourceBuffer
+    // , sourceBufferType = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+    // , firstChunkAppended = false
+    , videoFeedElement = document.getElementById('videoFeed');
 
   window.sockets = sockets;
-  window.videoElement = videoElement;
+  // window.videoElement = videoElement;
 
   function noop() {};
 
@@ -70,21 +71,13 @@ SKYNET.API = (function() {
   };
 
   function init() {
-    mediaSource = new WebKitMediaSource();
-    window.mediaSource = mediaSource;
-    videoElement.src = window.URL.createObjectURL(mediaSource);
+    getClientIP(function(clientIP) {
+      CLIENT_IP = clientIP;
 
-    mediaSource.addEventListener("webkitsourceopen", function() {
-      sourceBuffer = mediaSource.addSourceBuffer(sourceBufferType);
+      console.log("Client IP changed to ", CLIENT_IP);
 
-      getClientIP(function(clientIP) {
-        CLIENT_IP = clientIP;
-
-        console.log("Client IP changed to ", CLIENT_IP);
-
-        for(socket in sockets)
-          connect(sockets[socket]);
-      });
+      for(socket in sockets)
+        connect(sockets[socket]);
     });
   };
 
@@ -238,21 +231,27 @@ SKYNET.API = (function() {
     status.leftRightTilt = 0;
     status.frontBackTilt = 0;
 
+    videoFeedElement.src = '../frame.png?' + Date.now();
+
+    // OLD WAY OF TRYING TO READ VIDEO - GOOD FOR PRESENTATION
+    //
     //if(!firstChunkAppended) {
-    //  chrome.socket.read(
-    //    sockets.vid.socketID
-    //  , function(data) {
-    //      //mediaSource.addSourceBuffer(sourceBufferType).append(new Uint8Array(data.data));
-    //      sourceBuffer.append(new Uint8Array(data.data));
-    //      //videoElement.webkitSourceAppend(data.data);
+     // chrome.socket.read(
+     //   sockets.vid.socketID
+     // , function(data) {
+         //mediaSource.addSourceBuffer(sourceBufferType).append(new Uint8Array(data.data));
+         //sourceBuffer.append(new Uint8Array(data.data));
+         //videoElement.webkitSourceAppend(data.data);
 
-    //      videoElement.play();
+         //videoElement.play();
 
-    //      console.log("playing video");
+         //console.log("playing video");
 
-    //      firstChunkAppended = true;
-    //    }
-    //  );
+         //firstChunkAppended = true;
+
+
+     //   }
+     // );
     //}
 
     setTimeout(loop, 60);
