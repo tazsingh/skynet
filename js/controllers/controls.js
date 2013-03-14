@@ -1,4 +1,15 @@
-skynet.controller("Controls", function($chrome, status, modes, sockets, client, DRONE_IP, Util, Command, $scope) {
+skynet.controller("Controls", function(
+  $window
+, $chrome
+, status
+, modes
+, sockets
+, client
+, DRONE_IP
+, Util
+, Command
+, $scope) {
+
   var outstandingSockets = Object.keys(sockets).length;
 
   if(client.ip)
@@ -11,22 +22,26 @@ skynet.controller("Controls", function($chrome, status, modes, sockets, client, 
 
         initialize();
       }
-      //else
-        // error
+      else
+        console.log("getNetworkList error");
     });
 
   function initialize() {
     for(socket in sockets)
-      $chrome.socket.create(socket.protocol, undefined, function(socketInfo) {
-        socket.socketID = socketInfo.socketId;
+      connect(sockets[socket]);
+  }
 
-        $chrome.socket[socket.type](
-          socket.socketID
-        , socket.toDrone ? DRONE_IP : client.ip
-        , socket.port
-        , connectedCallback
-        );
-      });
+  function connect(socket) {
+    $chrome.socket.create(socket.protocol, undefined, function(socketInfo) {
+      socket.socketID = socketInfo.socketId;
+
+      $chrome.socket[socket.type](
+        socket.socketID
+      , (socket.toDrone ? DRONE_IP : client.ip)
+      , socket.port
+      , connectedCallback
+      );
+    });
   }
 
   function connectedCallback(result) {
@@ -34,11 +49,17 @@ skynet.controller("Controls", function($chrome, status, modes, sockets, client, 
       outstandingSockets--;
 
       if(outstandingSockets === 0) {
+        console.log("connected");
+
         sendKeepAliveCommand();
         sendFlatTrim();
         sendSensitivity();
 
         sendOutdoor(false);
+
+        status.enabled = true;
+
+        loop();
       }
     }
     else
@@ -69,8 +90,8 @@ skynet.controller("Controls", function($chrome, status, modes, sockets, client, 
   }
 
   function sendCommands(commands) {
-    if(keepAliveTimeout)
-      clearTimeout(keepAliveTimeout);
+    //if(keepAliveTimeout)
+    //  clearTimeout(keepAliveTimeout);
 
     var atSocket = sockets["at"]
       , commandBuffer = Util.stringToArrayBuffer(commands.join(""));
@@ -143,7 +164,7 @@ skynet.controller("Controls", function($chrome, status, modes, sockets, client, 
   }
 
   function loop() {
-    sendCommand([
+    sendCommands([
       new Command("REF", [
         status.mode
       ])
@@ -158,9 +179,65 @@ skynet.controller("Controls", function($chrome, status, modes, sockets, client, 
 
     status.leftRightTilt = 0;
     status.angularSpeed = 0;
-    status.leftRightTilt = 0;
+    status.verticalSpeed = 0;
     status.frontBackTilt = 0;
 
     setTimeout(loop, 60);
+  }
+
+  $scope.controls = [
+    "UP"
+  , "DOWN"
+  , "LEFT"
+  , "RIGHT"
+  ];
+
+  $scope.controlClasses = function(control) {
+    if(control === "UP")
+      return "span2 btn btn-round btn-active"
+    else
+      return "span2 btn btn-round"
+  }
+
+  $window.onkeypress = function(event) {
+    switch(event.keyCode) {
+      case 119: // W
+        status.frontBackTilt = 0.5;
+        break;
+      case 97:  // A
+        status.leftRightTilt = -0.5;
+        break;
+      case 115: // S
+        status.frontBackTilt = -0.5;
+        break;
+      case 100: // D
+        status.leftRightTilt = 0.5;
+        break;
+    }
+  }
+
+  $window.onkeydown = function(event) {
+    switch(event.keyCode) {
+      case 38: // up arrow
+        status.verticalSpeed = 0.1;
+        break;
+      case 37: // left arrow
+        status.angularSpeed = -0.5;
+        break;
+      case 40: // down arrow
+        status.verticalSpeed = -0.1;
+        break;
+      case 39: // right arrow
+        status.angularSpeed = 0.5;
+        break;
+
+      case 32: // spacebar
+        if(status.mode === modes.takeoff)
+          status.mode = modes.land;
+        else
+          status.mode = modes.takeoff;
+
+        break;
+    };
   }
 });

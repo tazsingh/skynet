@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng:app="skynet">
+<html ng:app="skynet" ng:csp>
   <head>
     <meta charset="utf-8">
     <title>Skynet 0.1 Alpha</title>
@@ -13,6 +13,7 @@
       <div class="row-fluid">
         <div id="instructions" class="span12">
           <h1>Skynet 0.1 Alpha</h1>
+
           <p id="message">
             Connect to the AR.Drone's Wifi network.
             Then press A on your gamepad to get started.
@@ -27,23 +28,8 @@
 
         <div id="controls" class="span7" ng:controller="Controls">
           <div class="row-fluid">
-            <div class="span2 btn btn-round">
-              UP
-            </div>
-            <div class="span2 btn btn-round">
-              DOWN
-            </div>
-            <div class="span2 btn btn-round">
-              LEFT
-            </div>
-            <div class="span2 btn btn-round">
-              RIGHT
-            </div>
-            <div class="span2 btn btn-round">
-              FILLER
-            </div>
-            <div class="span2 btn btn-round">
-              FILLER
+            <div ng:repeat="control in controls" ng:class="controlClasses(control)">
+              {{control}}
             </div>
           </div>
         </div>
@@ -56,9 +42,14 @@
 
     <script src="js/skynet.js"></script>
     <script src="js/services/chrome.js"></script>
-    <script src="js/services/client_ip.js"></script>
+    <script src="js/services/client.js"></script>
+    <script src="js/services/command.js"></script>
     <script src="js/services/drone_ip.js"></script>
+    <script src="js/services/modes.js"></script>
+    <script src="js/services/sequence.js"></script>
     <script src="js/services/sockets.js"></script>
+    <script src="js/services/status.js"></script>
+    <script src="js/services/util.js"></script>
 
     <script src="js/controllers/controls.js"></script>
     <script src="js/controllers/video_feed.js"></script>

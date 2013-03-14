@@ -18,14 +18,14 @@ skynet.factory("client", function($chrome) {
     });
   };
 
-  client.getNetworkList(function(results) {
-    if(results.length) {
-      client.ip = results[0];
-      console.log("client ip is", client.ip);
-    }
-    //else
-      // error
-  });
+  //client.getNetworkList(function(results) {
+  //  if(results.length) {
+  //    client.ip = results[0];
+  //    console.log("client ip is", client.ip);
+  //  }
+  //  //else
+  //    // error
+  //});
 
   return client;
 });
