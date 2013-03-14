@@ -205,13 +205,13 @@ skynet.controller("Controls", function(
         status.frontBackTilt = 0.5;
         break;
       case 97:  // A
-        status.leftRightTilt = -0.5;
+        status.leftRightTilt = 0.5;
         break;
       case 115: // S
         status.frontBackTilt = -0.5;
         break;
       case 100: // D
-        status.leftRightTilt = 0.5;
+        status.leftRightTilt = -0.5;
         break;
     }
   }
@@ -219,13 +219,13 @@ skynet.controller("Controls", function(
   $window.onkeydown = function(event) {
     switch(event.keyCode) {
       case 38: // up arrow
-        status.verticalSpeed = 0.1;
+        status.verticalSpeed = 0.5;
         break;
       case 37: // left arrow
         status.angularSpeed = -0.5;
         break;
       case 40: // down arrow
-        status.verticalSpeed = -0.1;
+        status.verticalSpeed = -0.5;
         break;
       case 39: // right arrow
         status.angularSpeed = 0.5;
