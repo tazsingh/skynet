@@ -18,8 +18,8 @@ skynet.factory("controls", function($window, $rootScope, status, modes) {
       , "down": ["verticalSpeed", -1.0]
       , "left": ["angularSpeed", -1.0]
       , "right": ["angularSpeed", 1.0]
-      , "W": ["frontBackTilt", 1.0]
-      , "S": ["frontBackTilt", -1.0]
+      , "W": ["frontBackTilt", -1.0]
+      , "S": ["frontBackTilt", 1.0]
       , "A": ["leftRightTilt", -1.0]
       , "D": ["leftRightTilt", 1.0]
       };
