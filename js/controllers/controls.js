@@ -171,17 +171,12 @@ skynet.controller("Controls", function(
       ])
     , new Command("PCMD", [
         (status.enabled ? 1 : 0)
-      , Util.float32ToInt32(status.leftRightTilt)
-      , Util.float32ToInt32(status.frontBackTilt)
-      , Util.float32ToInt32(status.verticalSpeed)
-      , Util.float32ToInt32(status.angularSpeed)
+      , Util.float32ToInt32(controls.states.leftRightTilt)
+      , Util.float32ToInt32(controls.states.frontBackTilt)
+      , Util.float32ToInt32(controls.states.verticalSpeed)
+      , Util.float32ToInt32(controls.states.angularSpeed)
       ])
     ]);
-
-    status.leftRightTilt = 0;
-    status.angularSpeed = 0;
-    status.verticalSpeed = 0;
-    status.frontBackTilt = 0;
 
     setTimeout(loop, 60);
   }
