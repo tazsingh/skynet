@@ -43,7 +43,7 @@ var gamepadController = {
 
     if (gamepadController.gamePad) {
       gamepadController.prevTimestamp = gamepadController.timestamp;
-      gamepadController.updateDisplay();
+      gamepadController.sendControllerStatus();
     }
   }
 , pollGamepads: function() {
@@ -64,11 +64,12 @@ var gamepadController = {
       }
     }
   }
-, updateDisplay: function() {
+, sendControllerStatus: function() {
     var gamePad = gamepadController.gamePad;
 
     for(var i = 0, button = gamePad.buttons[i]; i < gamePad.buttons.length; i++, button = gamePad.buttons[i]) {
-      SKYNET.Gamepad.updateButton(i, button);
+      console.log("b")
+      // skynet.Gamepad.updateButton(i, button);
     }
 
     for(var i = 0
@@ -80,8 +81,8 @@ var gamepadController = {
         , axisName = Math.floor(i / 2) === 0 ? "left" : "right"
         , orientation = i % 2 ? "x" : "y"
         , axis = gamePad.axes[i]) {
-
-      SKYNET.Gamepad.updateAxis(axisName, orientation, axis);
+      console.log("Aix: ", axisName, orientation, axis)
+      // skynet.Gamepad.updateAxis(axisName, orientation, axis);
     }
   }
 , scheduleNextTick: function() {
