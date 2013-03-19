@@ -1,5 +1,5 @@
 test:
-	@testacular start spec/testacular.conf.js
+	@./node_modules/testacular/bin/testacular start spec/testacular.conf.js
 
 video:
 	ffplay tcp://192.168.1.1:5555

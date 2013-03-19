@@ -1,16 +1,19 @@
 {
-  "name": "skynet",
-  "version": "0.1.0",
-  "description": "",
-  "main": "skynet.js",
-  "scripts": {
+  "name": "skynet"
+, "version": "0.1.0"
+, "description": ""
+, "main": "skynet.js"
+, "scripts": {
     "test": "make test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/tazsingh/skynet.git"
-  },
-  "author": "Tasveer Singh & Joshua Kelly",
-  "license": "MIT",
-  "gitHead": "c9663e9f61d9210d376697e3adc03c575c4f145e"
+  }
+, "repository": {
+    "type": "git"
+  , "url": "git://github.com/tazsingh/skynet.git"
+  }
+, "dependencies": {
+    "testacular": "*"
+  }
+, "author": "Tasveer Singh & Joshua Kelly"
+, "license": "MIT"
+, "gitHead": "c9663e9f61d9210d376697e3adc03c575c4f145e"
 }
