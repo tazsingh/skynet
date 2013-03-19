@@ -8,6 +8,7 @@ skynet.controller("Controls", function(
 , DRONE_IP
 , Util
 , Command
+, controls
 , $scope) {
 
   var outstandingSockets = Object.keys(sockets).length;
@@ -199,45 +200,5 @@ skynet.controller("Controls", function(
       return "span2 btn btn-round"
   }
 
-  $window.onkeypress = function(event) {
-    switch(event.keyCode) {
-      case 119: // W
-        status.frontBackTilt = 0.5;
-        break;
-      case 97:  // A
-        status.leftRightTilt = 0.5;
-        break;
-      case 115: // S
-        status.frontBackTilt = -0.5;
-        break;
-      case 100: // D
-        status.leftRightTilt = -0.5;
-        break;
-    }
-  }
-
-  $window.onkeydown = function(event) {
-    switch(event.keyCode) {
-      case 38: // up arrow
-        status.verticalSpeed = 0.5;
-        break;
-      case 37: // left arrow
-        status.angularSpeed = -0.5;
-        break;
-      case 40: // down arrow
-        status.verticalSpeed = -0.5;
-        break;
-      case 39: // right arrow
-        status.angularSpeed = 0.5;
-        break;
-
-      case 32: // spacebar
-        if(status.mode === modes.takeoff)
-          status.mode = modes.land;
-        else
-          status.mode = modes.takeoff;
-
-        break;
-    };
-  }
+  //controls.
 });

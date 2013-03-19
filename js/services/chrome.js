@@ -1,1 +1,3 @@
-skynet.value("$chrome", chrome);
+skynet.factory("$chrome", function() {
+  return chome || {};
+});
