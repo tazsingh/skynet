@@ -9,6 +9,7 @@ skynet.controller("Controls", function(
 , Util
 , Command
 , controls
+, gamepadDevice
 , $scope) {
 
   var outstandingSockets = Object.keys(sockets).length;
