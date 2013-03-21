@@ -1,6 +1,5 @@
 skynet.controller("Controls", function(
-  $window
-, $chrome
+  $chrome
 , status
 , modes
 , sockets
@@ -10,11 +9,11 @@ skynet.controller("Controls", function(
 , Command
 , controls
 , gamepadDevice
+, navData
 , $scope) {
 
   var outstandingSockets = Object.keys(sockets).length;
-
-  var navData = null;
+  var debug = false;
 
   if(client.ip)
     initialize();
@@ -60,6 +59,7 @@ skynet.controller("Controls", function(
         sendSensitivity();
 
         sendOutdoor(false);
+        sendAllNavdata();
 
         status.enabled = true;
 
@@ -74,6 +74,7 @@ skynet.controller("Controls", function(
 
   function sendKeepAliveCommand() {
     var navSocket = sockets["navigation"];
+    var prevState = null;
 
     $chrome.socket.sendTo(
       navSocket.socketID
@@ -87,50 +88,14 @@ skynet.controller("Controls", function(
       navSocket.socketID
     , function(data) {
         if(data.data.byteLength > 0) {
-          navData = parseData(data.data);
-          // console.log(navData);
+          navData.parseData(data.data);
+          if(debug && prevState != navData.data.controlState) {
+            console.log(navData.data);
+            prevState = navData.data.controlState;
+          }
         }
       }
     );
-  }
-
-  function parseData(data) {
-    var view = new DataView(data)
-      , start = 16
-      , sequence = null
-      , options = null
-      , optionId = null
-      , optionSize = null
-      , optionData = null
-      , dataLen = data.byteLength;
-
-    if(start + 36 <= dataLen) {
-      console.log("parsed")
-      optionId = view.getInt16(start, true);
-      optionSize = view.getInt16(start + 2, true);
-
-      options = {
-
-        controlState: view.getUint32(start + 4, true),
-        batteryPercentage: view.getUint32(start + 8, true),
-
-        theta: view.getFloat32(start + 12, true),
-        phi: view.getFloat32(start + 16, true),
-        psi: view.getFloat32(start + 20, true),
-
-        altitude: view.getInt32(start + 24, true),
-
-        vx: view.getFloat32(start + 28, true),
-        vy: view.getFloat32(start + 32, true),
-        vz: view.getFloat32(start + 36, true)
-      };
-
-    }
-
-    return {
-      "sequence": sequence,
-      "options": options
-    };
   }
 
   function sendCommands(commands) {
@@ -176,6 +141,14 @@ skynet.controller("Controls", function(
         '"control:outdoor"'
       , '"' + (isOutdoor ? "TRUE" : "FALSE") + '"'
       ])
+    ]);
+  }
+
+  function sendAllNavdata() {
+    sendCommands([
+      new Command("CONFIG", [
+        '"general:navdata_demo"'
+      , '"FALSE"'])
     ]);
   }
 
