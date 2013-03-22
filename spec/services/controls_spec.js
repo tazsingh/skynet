@@ -30,7 +30,7 @@ describe("controls", function() {
     });
 
     it("has certain keys", function() {
-      ["space", "up", "right", "down", "A", "D", "S", "W"].forEach(function(prop) {
+      ["verticalSpeed", "angularSpeed", "frontBackTilt", "leftRightTilt"].forEach(function(prop) {
         controls.states.should.have.ownProperty(prop);
       });
     });
@@ -41,24 +41,24 @@ describe("controls", function() {
     });
 
     describe("$window.onkeydown", function() {
-      var keyCode = 32
-        , keyName = "space";
+      var keyCode = 87
+        , keyName = "W";
 
       it("sets the `keyName` to 1.0 when the `keyCode` is passed", function() {
         $window.onkeydown({
           keyCode: keyCode
         });
 
-        controls.states[keyName].should.equal(1.0);
+        controls.states.frontBackTilt.should.equal(1.0);
       });
     });
 
     describe("$window.onkeyup", function() {
-      var keyCode = 32
-        , keyName = "space";
+      var keyCode = 87
+        , keyName = "W";
 
       beforeEach(function() {
-        controls.states[keyName] = 1.0;
+        controls.states.frontBackTilt = 1.0;
       });
 
       it("sets the `keyName` to 0.0 when the `keyCode` is passed", function() {
@@ -66,7 +66,7 @@ describe("controls", function() {
           keyCode: keyCode
         });
 
-        controls.states[keyName].should.equal(0.0);
+        controls.states.frontBackTilt.should.equal(0.0);
       });
     });
   });
